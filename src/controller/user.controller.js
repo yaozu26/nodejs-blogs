@@ -11,6 +11,7 @@ class UserController {
 
     // 3、返回给客户端的结果
     ctx.body = {
+      code: 0,
       message: "创建用户成功~",
       data: res,
     }

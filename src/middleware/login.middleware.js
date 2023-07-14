@@ -3,6 +3,7 @@ const {
   NAME_OR_PASSWORD_IS_NULL,
   NAME_IS_NOT_EXISTS,
   UNAUTHORIZED,
+  PASSWORD_IS_ERROR,
 } = require("../config/error-constants")
 const { findUserByName } = require("../service/user.service")
 const md5Password = require("../utils/md5-password")
@@ -27,7 +28,7 @@ const verifyLogin = async (ctx, next) => {
 
   // 4、查询数据库中密码和用户传递密码是否一致
   if (user.password !== md5Password(password)) {
-    return ctx.app.emit("error")
+    return ctx.app.emit("error", PASSWORD_IS_ERROR, ctx)
   }
 
   // 5、将user对象保存到ctx中
