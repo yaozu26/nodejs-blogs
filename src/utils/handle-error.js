@@ -6,6 +6,7 @@ const {
   UNAUTHORIZED,
   PASSWORD_IS_ERROR,
   LABEL_IS_ALREADY_EXISTS,
+  RECORD_CONTENT_IS_NULL,
 } = require("../config/error-constants")
 
 app.on("error", (err, ctx) => {
@@ -36,6 +37,10 @@ app.on("error", (err, ctx) => {
     case LABEL_IS_ALREADY_EXISTS:
       code = -1101
       message = "标签已经被创建"
+      break
+    case RECORD_CONTENT_IS_NULL:
+      code = -1201
+      message = "记录内容为空"
       break
   }
 
