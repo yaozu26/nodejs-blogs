@@ -1,4 +1,4 @@
-const { create, update } = require("../service/user.service")
+const { create, update, findUserById } = require("../service/user.service")
 
 class UserController {
   // 创建用户
@@ -25,6 +25,18 @@ class UserController {
 
     ctx.body = {
       message: "修改密码成功",
+      data: res,
+    }
+  }
+
+  // 查找用户信息
+  async find(ctx, next) {
+    const { id } = ctx.params
+
+    const [res] = await findUserById(id)
+
+    ctx.body = {
+      code: 0,
       data: res,
     }
   }

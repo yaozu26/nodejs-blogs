@@ -13,6 +13,17 @@ class RecordController {
       data: res,
     }
   }
+
+  // 查找所有列表的数据
+  async list(ctx, next) {
+    const res = await recordService.list()
+
+    ctx.body = {
+      code: 0,
+      message: "列表查找成功",
+      data: res,
+    }
+  }
 }
 
 module.exports = new RecordController()

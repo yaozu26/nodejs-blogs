@@ -1,4 +1,4 @@
-const { create, addLabels } = require("../service/project.service")
+const { create, addLabels, findList } = require("../service/project.service")
 const labelService = require("../service/label.service")
 
 class ProjectController {
@@ -34,6 +34,16 @@ class ProjectController {
         code: -11,
         message: "为项目添加标签失败",
       }
+    }
+  }
+
+  // 查找列表信息
+  async findList(ctx, next) {
+    const [res] = await findList()
+
+    ctx.body = {
+      code: 0,
+      data: res,
     }
   }
 }
