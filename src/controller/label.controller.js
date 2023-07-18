@@ -12,6 +12,16 @@ class LabelController {
       data: result,
     }
   }
+
+  // 获取所有标签列表
+  async list(ctx, next) {
+    const res = await labelService.list()
+
+    ctx.body = {
+      code: 0,
+      data: res,
+    }
+  }
 }
 
 module.exports = new LabelController()

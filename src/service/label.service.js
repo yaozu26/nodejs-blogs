@@ -4,16 +4,29 @@ class LabelService {
   // 创建标签
   async create(name) {
     const statement = "INSERT INTO labels(name) VALUES(?);"
+    const [res] = await connection.execute(statement, [name])
+    return res
+  }
 
-    const [result] = await connection.execute(statement, [name])
-    return result
+  // 查找所有标签
+  async list() {
+    const statement = "SELECT * FROM labels;"
+    const [res] = await connection.execute(statement)
+    return res
   }
 
   // 查找单个标签
   async findLabel(name) {
     const statement = "SELECT * FROM labels WHERE name = ?;"
-    const [values] = await connection.execute(statement, [name])
-    return values
+    const [res] = await connection.execute(statement, [name])
+    return res
+  }
+
+  // 建立labels和article的引用
+  async buildArticle(articleId, labelId) {
+    const statement = "INSERT INTO article_labels(article_id, labels_id) VALUES(?, ?);"
+    const [res] = await connection.execute(statement, [articleId, labelId])
+    return res
   }
 }
 
