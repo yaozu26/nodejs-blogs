@@ -22,7 +22,7 @@ class UserService {
   }
 
   async findUserById(id) {
-    const statement = "SELECT nikename, des, content, tags, avatar_url from users WHERE id = ?;"
+    const statement = "SELECT nikename, des, tags, avatar_url from users WHERE id = ?;"
     const [res] = await connection.execute(statement, [id])
     return res
   }

@@ -33,7 +33,7 @@ class FileController {
     const { filename, mimetype } = avatarInfo
     ctx.type = mimetype
 
-    ctx.body = fs.createReadStream(`${UPLOAD_PATH}/${filename}`)
+    ctx.body = fs.createReadStream(`${UPLOAD_PATH}/avatar/${filename}`)
   }
 }
 

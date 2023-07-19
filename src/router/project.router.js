@@ -9,7 +9,7 @@ projectRouter.post("/", verifyAuth, create)
 // 增加标签
 projectRouter.post("/:projectId/label", verifyAuth, addLabels)
 
-// 查找项目
+// 查找项目列表
 projectRouter.get("/", findList)
 
 module.exports = projectRouter

@@ -20,7 +20,7 @@ class ProjectService {
   // 查找项目列表
   async findList() {
     const statement = `SELECT
-    m.id id, m.title title, m.createAt createTime, m.updateAt updateTime, 
+    m.id id, m.title title, m.createAt createTime, m.updateAt updateTime, m.theme theme, 
       (
         SELECT JSON_ARRAYAGG(JSON_OBJECT(
         'id', l.id, "name", l.name)) 

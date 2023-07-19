@@ -1,4 +1,4 @@
-const { create, update, findUserById } = require("../service/user.service")
+const userService = require("../service/user.service")
 
 class UserController {
   // 创建用户
@@ -7,7 +7,7 @@ class UserController {
     const user = ctx.request.body
 
     // 2、将用户存储到数据库中
-    const res = await create(user)
+    const res = await userService.create(user)
 
     // 3、返回给客户端的结果
     ctx.body = {
@@ -21,7 +21,7 @@ class UserController {
   async update(ctx, next) {
     const { name, password } = ctx.request.body
 
-    const res = await update(password, name)
+    const res = await userService.update(password, name)
 
     ctx.body = {
       message: "修改密码成功",
@@ -33,7 +33,7 @@ class UserController {
   async find(ctx, next) {
     const { id } = ctx.params
 
-    const [res] = await findUserById(id)
+    const [res] = await userService.findUserById(id)
 
     ctx.body = {
       code: 0,
