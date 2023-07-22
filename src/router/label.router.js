@@ -3,7 +3,7 @@ const labelController = require("../controller/label.controller")
 
 const labelRouter = new koaRouter({ prefix: "/label" })
 
-// 获取所有标签列表
-labelRouter.get("/", labelController.list)
+// 获取所有标签
+labelRouter.get("/list", labelController.list)
 
 module.exports = labelRouter

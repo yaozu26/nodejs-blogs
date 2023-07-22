@@ -40,6 +40,15 @@ class UserService {
     const [result] = await connection.execute(statement, [avatarUrl, userId])
     return result
   }
+
+  // 获取所有用户信息
+  async list() {
+    const statement = "SELECT * FROM users;"
+
+    const [res] = await connection.execute(statement)
+
+    return res
+  }
 }
 
 module.exports = new UserService()

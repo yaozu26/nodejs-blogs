@@ -9,9 +9,11 @@ const userRouter = new koaRouter({ prefix: "/users" })
 userRouter.post("/", verifyUser, handlePassword, userController.create)
 // 修改用户信息(登录状态)不安全
 userRouter.patch("/", verifyAuth, handlePassword, userController.update)
-// 注销用户:
 
-// 获取用户信息
+// 查 获取用户信息
 userRouter.get("/:id", userController.find)
+
+// 查 获取所有用户信息
+userRouter.get("/role/list", userController.list)
 
 module.exports = userRouter

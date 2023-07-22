@@ -1,26 +1,17 @@
 const connection = require("../app/database")
 
 class ProjectService {
-  // 创建项目
-  async create(title) {
-    const statement = "INSERT INTO projects (title) VALUES(?);"
-
-    const [res] = await connection.execute(statement, [title])
-
+  // 增 projects
+  async createProject(title, theme, content) {
+    const statement = "INSERT INTO projects (title, theme, content) VALUES(?, ?, ?);"
+    const [res] = await connection.execute(statement, [title, theme, content])
     return res
   }
 
-  // 添加标签
-  async addLabels(projectId, labelId) {
-    const statement = "INSERT INTO projects_labels (project_id, label_id) VALUES(?, ?);"
-    const [result] = await connection.execute(statement, [projectId, labelId])
-    return result
-  }
-
-  // 查找项目列表
+  // 查 查找项目列表
   async findList() {
     const statement = `SELECT
-    m.id id, m.title title, m.createAt createTime, m.updateAt updateTime, m.theme theme, 
+    m.id id, m.title title, m.createAt createTime, m.updateAt updateTime, m.theme theme, m.content content, 
       (
         SELECT JSON_ARRAYAGG(JSON_OBJECT(
         'id', l.id, "name", l.name)) 

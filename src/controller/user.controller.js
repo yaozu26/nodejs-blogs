@@ -40,6 +40,16 @@ class UserController {
       data: res,
     }
   }
+
+  // 获取所有用户信息
+  async list(ctx, next) {
+    const res = await userService.list()
+
+    ctx.body = {
+      code: 0,
+      data: res,
+    }
+  }
 }
 
 module.exports = new UserController()

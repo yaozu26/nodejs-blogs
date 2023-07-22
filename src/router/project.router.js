@@ -1,13 +1,10 @@
 const koaRouter = require("@koa/router")
-const { verifyAuth } = require("../middleware/login.middleware")
-const { create, addLabels, findList } = require("../controller/project.controller")
+const { create, findList } = require("../controller/project.controller")
 
 const projectRouter = new koaRouter({ prefix: "/project" })
 
 // 创建项目
-projectRouter.post("/", verifyAuth, create)
-// 增加标签
-projectRouter.post("/:projectId/label", verifyAuth, addLabels)
+projectRouter.post("/", create)
 
 // 查找项目列表
 projectRouter.get("/", findList)
