@@ -1,12 +1,19 @@
 const koaRouter = require("@koa/router")
-const { create, findList } = require("../controller/project.controller")
+const projectController = require("../controller/project.controller")
 
 const projectRouter = new koaRouter({ prefix: "/project" })
 
 // 创建项目
-projectRouter.post("/", create)
+projectRouter.post("/", projectController.create)
+
+// 修改项目
+projectRouter.patch("/:id", projectController.update)
 
 // 查找项目列表
-projectRouter.get("/", findList)
+projectRouter.get("/", projectController.findList)
+projectRouter.get("/:id", projectController.findOne)
+
+// 删除项目
+projectRouter.delete("/:id", projectController.delete)
 
 module.exports = projectRouter

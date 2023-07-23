@@ -29,6 +29,23 @@ class LabelService {
     return res
   }
 
+  // 获取projects对应得标签
+  async getLabelById(id) {
+    const statement = `SELECT * FROM labels l 
+    LEFT JOIN projects_labels pl ON pl.label_id = l.id WHERE pl.project_id = ${id};`
+
+    const [res] = await connection.execute(statement)
+
+    return res
+  }
+
+  // 移除project与labels的标签引用
+  async removeLabelProject(labelId) {
+    const statement = `DELETE FROM projects_labels WHERE label_id = ${labelId};`
+    const [res] = await connection.execute(statement)
+    return res
+  }
+
   // 建立labels和projects表的引用
   async buildProjects(projectId, labelId) {
     const statement = "INSERT INTO projects_labels(project_id, label_id) VALUES(?, ?);"
