@@ -18,7 +18,7 @@ class ProjectService {
   // 查 查找项目列表
   async findList() {
     const statement = `SELECT
-    m.id id, m.title title, m.createAt createTime, m.updateAt updateTime, m.theme theme, m.content content, 
+    m.id id, m.title title, m.createAt createTime, m.updateAt updateTime, m.theme theme, 
       (
         SELECT JSON_ARRAYAGG(JSON_OBJECT(
         'id', l.id, "name", l.name)) 
@@ -37,8 +37,7 @@ class ProjectService {
   // 查找单个项目
   async findOne(id) {
     const statement1 = `SELECT * FROM projects p WHERE id = ${id};`
-    const statement2 = `SELECT l.id id, l.name name, l.createAt createTime, l.updateAt updateTime
-    FROM labels l LEFT JOIN projects_labels pl ON pl.label_id = l.id WHERE project_id = ${id};`
+    const statement2 = `SELECT l.id id, l.name name, l.createAt createTime, l.updateAt updateTime FROM labels l LEFT JOIN article_labels al ON al.labels_id = l.id WHERE article_id = ${id};`
     let [res1] = await connection.execute(statement1)
     const [res2] = await connection.execute(statement2)
     const res = res1[0]

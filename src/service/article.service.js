@@ -1,31 +1,10 @@
 const connection = require("../app/database")
 
 class ArticleService {
-  // 创建article
-  async create(title) {
-    const statement = "INSERT INTO article(title) VALUES(?);"
-    const [res] = await connection.execute(statement, [title])
-    return res
-  }
-
-  // 创建h1
-  async createH1(articleId, title) {
-    const statement = "INSERT INTO h1(article_id, title) VALUES(?, ?);"
-    const [res] = await connection.execute(statement, [articleId, title])
-    return res
-  }
-
-  // 创建h2
-  async createH2(h1Id, title) {
-    const statement = "INSERT INTO h2(h1_id, title) VALUES(?, ?);"
-    const [res] = await connection.execute(statement, [h1Id, title])
-    return res
-  }
-
-  // 创建内容a_content
-  async createContent(h1Id, h2Id, type, content) {
-    const statement = "INSERT INTO a_content(h1_id, h2_id, type, content) VALUES(?, ?, ?, ?);"
-    const [res] = await connection.execute(statement, [h1Id, h2Id, type, content])
+  // 创建文章
+  async create(title, content) {
+    const statement = "INSERT INTO article (title, content) VALUES(?, ?);"
+    const [res] = await connection.execute(statement, [title, content])
     return res
   }
 
@@ -53,6 +32,32 @@ class ArticleService {
   // 查询文章列表长度
   async count() {
     const statement = "SELECT COUNT(*) FROM article;"
+    const [res] = await connection.execute(statement)
+    return res
+  }
+
+  // 查询文章详情
+  async detail(id) {
+    const statement1 = `SELECT * FROM article WHERE id = ${id};`
+    const statement2 = `SELECT l.id id, l.name name, l.createAt createTime, l.updateAt updateTime
+    FROM labels l LEFT JOIN article_labels al ON al.labels_id = l.id WHERE article_id = ${id};`
+    let [res1] = await connection.execute(statement1)
+    const [res2] = await connection.execute(statement2)
+    const res = res1[0]
+    res.labels = res2
+    return res
+  }
+
+  // 删除文章
+  async delete(id) {
+    const statement = `DELETE FROM article WHERE id = ${id}`
+    const [res] = await connection.execute(statement)
+    return res
+  }
+
+  // 更新文章
+  async update(id, title, content) {
+    const statement = `UPDATE article SET title = '${title}', content = '${content}' WHERE id = ${id};`
     const [res] = await connection.execute(statement)
     return res
   }

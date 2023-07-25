@@ -1,54 +1,27 @@
 const articleService = require("../service/article.service")
 const labelService = require("../service/label.service")
+const { verifyExists } = require("../middleware/label.middleware")
 
 class ArticleController {
-  async create(ctx, next) {
-    // 1、获取数据
-    const { title, labels, catalog } = ctx.request.body
+  // 创建文章
+  async create(ctx) {
+    // 1、拿到客户端传来的数据
+    const { title, labels, content } = ctx.request.body
 
-    // 2、在article表中创建数据
-    const res1 = await articleService.create(title)
-    const articleId = res1.insertId
+    // 2、在projects上创建一条记录
+    const res = await articleService.create(title, content)
+    const articleId = res.insertId
 
     // 3、对标签进行管理
-    for (let label of labels) {
-      // 如果标签存在，则添加引用关系，不存在，先创建标签再添加引用
-      const res2 = await labelService.findLabel(label)
-      let labelId
-      if (res2.length > 0) {
-        labelId = res2[0].id
-      } else {
-        const res3 = await labelService.create(label)
-        labelId = res3.insertId
-      }
+    for (const label of labels) {
+      const labelId = await verifyExists(label)
       await labelService.buildArticle(articleId, labelId)
     }
 
-    // 4、对目录的管理
-    for (let h1 of catalog) {
-      const res4 = await articleService.createH1(articleId, h1.title)
-      if (h1.content) {
-        for (let c of h1.content) {
-          const res5 = await articleService.createContent(res4.insertId, null, c.type, c.text)
-        }
-      }
-      if (h1.catalog) {
-        for (let h2 of h1.catalog) {
-          const res6 = await articleService.createH2(res4.insertId, h2.title)
-          const h2Id = res6.insertId
-          if (h2.content) {
-            for (let c of h2.content) {
-              const res6 = await articleService.createContent(null, h2Id, c.type, c.text)
-            }
-          }
-        }
-      }
-    }
-
-    // 5、返回客户端，数据创建成功
+    // 4、返回客户端结果
     ctx.body = {
-      code: 0,
-      message: "数据创建成功",
+      data: 0,
+      message: "文章创建成功",
     }
   }
 
@@ -63,6 +36,58 @@ class ArticleController {
       code: 0,
       data: res,
       totalCount: totalCount["COUNT(*)"],
+    }
+  }
+
+  // 查询文章详情
+  async detail(ctx) {
+    const { id } = ctx.params
+    const res = await articleService.detail(id)
+    ctx.body = {
+      cody: 0,
+      message: "文章查询成功",
+      data: res,
+    }
+  }
+
+  // 删除文章
+  async delete(ctx) {
+    const { id } = ctx.params
+
+    const res = await articleService.delete(id)
+  }
+
+  // 更新文章
+  async update(ctx) {
+    const { id } = ctx.params
+    const { title, labels, content } = ctx.request.body
+    const res1 = await articleService.update(id, title, content)
+
+    const res2 = await labelService.getArticleLabelById(id)
+
+    const res3 = res2?.map((item) => item.name)
+
+    const oldNames = res2
+    for (const name of labels) {
+      const labelId = await verifyExists(name)
+      if (res3 && res3.includes(name)) {
+        const index = res3.indexOf(name)
+        oldNames.splice(index, 1)
+      } else {
+        await labelService.buildArticle(id, labelId)
+      }
+
+      // 处理移除的标签
+      if (oldNames) {
+        for (const n of oldNames) {
+          const res = await labelService.removeLabelArticle(n.label_id)
+        }
+      }
+    }
+
+    ctx.body = {
+      code: 0,
+      message: "更新文章成功",
     }
   }
 }

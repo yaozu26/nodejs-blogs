@@ -55,6 +55,7 @@ class ProjectController {
 
     ctx.body = {
       code: 0,
+      message: "更新项目成功",
     }
   }
 
