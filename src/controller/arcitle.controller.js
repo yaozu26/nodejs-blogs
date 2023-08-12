@@ -6,10 +6,10 @@ class ArticleController {
   // 创建文章
   async create(ctx) {
     // 1、拿到客户端传来的数据
-    const { title, labels, content } = ctx.request.body
+    const { title, labels, content, desc } = ctx.request.body
 
     // 2、在projects上创建一条记录
-    const res = await articleService.create(title, content)
+    const res = await articleService.create(title, content, desc)
     const articleId = res.insertId
 
     // 3、对标签进行管理
@@ -60,8 +60,8 @@ class ArticleController {
   // 更新文章
   async update(ctx) {
     const { id } = ctx.params
-    const { title, labels, content } = ctx.request.body
-    const res1 = await articleService.update(id, title, content)
+    const { title, labels, content, desc } = ctx.request.body
+    const res1 = await articleService.update(id, title, content, desc)
 
     const res2 = await labelService.getArticleLabelById(id)
 

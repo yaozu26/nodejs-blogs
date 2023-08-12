@@ -2,16 +2,16 @@ const connection = require("../app/database")
 
 class ArticleService {
   // 创建文章
-  async create(title, content) {
-    const statement = "INSERT INTO article (title, content) VALUES(?, ?);"
-    const [res] = await connection.execute(statement, [title, content])
+  async create(title, content, desc) {
+    const statement = "INSERT INTO article (title, content, description) VALUES(?, ?, ?);"
+    const [res] = await connection.execute(statement, [title, content, desc])
     return res
   }
 
   // 查询文章列表
   async list(limit = 30, offset = 0) {
     const statement = `SELECT
-      a.id id, a.title title, a.createAt createTime, a.updateAt updateTime,
+      a.id id, a.title title, a.createAt createTime, a.updateAt updateTime, a.description des,
     (
       SELECT JSON_ARRAYAGG(JSON_OBJECT(
         "id", l.id, "name", l.name
@@ -56,8 +56,8 @@ class ArticleService {
   }
 
   // 更新文章
-  async update(id, title, content) {
-    const statement = `UPDATE article SET title = '${title}', content = '${content}' WHERE id = ${id};`
+  async update(id, title, content, desc) {
+    const statement = `UPDATE article SET title = '${title}', content = '${content}', description='${desc}' WHERE id = ${id};`
     const [res] = await connection.execute(statement)
     return res
   }
