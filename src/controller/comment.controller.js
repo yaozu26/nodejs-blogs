@@ -14,9 +14,10 @@ class CommentController {
     }
   }
 
+  // 查询评论列表
   async list(ctx) {
     const res = await commentService.list()
-    const data = settleComment(res)
+    const data = await settleComment(res)
 
     ctx.body = {
       cody: 0,

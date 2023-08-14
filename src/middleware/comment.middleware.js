@@ -1,7 +1,13 @@
+const userService = require("../service/user.service")
+
 // 整理评论数据
-function settleComment(data) {
+async function settleComment(data) {
   let firstComments = []
   for (let comment of data) {
+    // 获取角色信息
+    const [res] = await userService.findUserById(comment.user_id)
+    comment.userInfo = res
+
     if (!comment.comment_id) {
       comment.children = []
       firstComments.push(comment)
