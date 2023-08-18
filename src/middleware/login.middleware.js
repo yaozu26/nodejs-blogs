@@ -49,12 +49,12 @@ const verifyAuth = async (ctx, next) => {
   // 2、对token进行解密
   const token = authorization.replace("Bearer ", "")
   try {
-    const result = jwt.verify(token, PUBLIC_KEY, {
+    const res = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ["RS256"],
     })
 
     // 将token信息保留下来
-    ctx.user = result
+    ctx.user = res
 
     await next()
   } catch (error) {
