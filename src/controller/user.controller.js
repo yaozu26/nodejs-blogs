@@ -1,15 +1,15 @@
 const userService = require("../service/user.service")
+const projectService = require("../service/project.service")
+const articleService = require("../service/article.service")
+const labelService = require("../service/label.service")
 
 class UserController {
   // 创建用户
   async create(ctx, next) {
-    // 1、获取用户传递过来的信息
     const user = ctx.request.body
 
-    // 2、将用户存储到数据库中
     const res = await userService.create(user)
 
-    // 3、返回给客户端的结果
     ctx.body = {
       code: 0,
       message: "创建用户成功~",
@@ -29,15 +29,25 @@ class UserController {
     }
   }
 
-  // 查找用户信息
+  // 查找信息（作者）
   async find(ctx, next) {
     const { id } = ctx.params
 
     const [res] = await userService.findUserById(id)
+    const [projectData] = await projectService.count()
+    const [articleData] = await articleService.count()
+    const [labelData] = await labelService.count()
+    const data = {
+      ...res,
+      projectCount: projectData.sum,
+      articleCount: articleData.sum,
+      labelCount: labelData.sum,
+    }
 
     ctx.body = {
       code: 0,
-      data: res,
+      data: data,
+      message: "用户信息获取成功~",
     }
   }
 

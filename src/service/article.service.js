@@ -31,7 +31,7 @@ class ArticleService {
 
   // 查询文章列表长度
   async count() {
-    const statement = "SELECT COUNT(*) FROM article;"
+    const statement = "SELECT COUNT(*) sum FROM article;"
     const [res] = await connection.execute(statement)
     return res
   }

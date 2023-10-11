@@ -35,7 +35,7 @@ class ArticleController {
     ctx.body = {
       code: 0,
       data: res,
-      totalCount: totalCount["COUNT(*)"],
+      totalCount: totalCount.sum,
     }
   }
 

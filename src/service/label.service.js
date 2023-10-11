@@ -1,6 +1,13 @@
 const connection = require("../app/database")
 
 class LabelService {
+  // 查找标签长度
+  async count() {
+    const statement = "SELECT COUNT(*) sum FROM labels;"
+    const [res] = await connection.execute(statement)
+    return res
+  }
+
   // 创建标签
   async create(name) {
     const statement = "INSERT INTO labels(name) VALUES(?);"
