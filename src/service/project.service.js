@@ -2,29 +2,29 @@ const connection = require("../app/database")
 
 class ProjectService {
   // 增 projects
-  async createProject(title, theme, content) {
-    const statement = "INSERT INTO projects (title, theme, content) VALUES(?, ?, ?);"
-    const [res] = await connection.execute(statement, [title, theme, content])
+  async createProject(title, themeId, content) {
+    const statement = "INSERT INTO projects (title, themeId, content) VALUES(?, ?, ?);"
+    const [res] = await connection.execute(statement, [title, themeId, content])
     return res
   }
 
   // 改
-  async update(id, title, theme, content) {
-    const statement = `UPDATE projects SET title = '${title}', content = '${content}', theme = '${theme}' WHERE id = ${id};`
+  async update(id, title, themeId, content) {
+    const statement = `UPDATE projects SET title = '${title}', content = '${content}', theme = '${themeId}' WHERE id = ${id};`
     const [res] = await connection.execute(statement)
     return res
   }
 
   // 查 查找项目列表
   async findList() {
-    const statement = `SELECT * FROM projects;`
+    const statement = `SELECT p.id id, p.title title, p.createAt createAt, p.updateAt updateAt, p.content content, t.name theme FROM projects p LEFT JOIN themes t ON p.theme_id = t.id;`
     const res = await connection.execute(statement)
     return res
   }
 
   // 查找单个项目
   async findOne(id) {
-    const statement = `SELECT * FROM projects WHERE id = ${id};`
+    const statement = `SELECT p.id id, p.title title, p.createAt createAt, p.updateAt updateAt, p.content content, t.name theme FROM projects p LEFT JOIN themes t ON p.theme_id = t.id WHERE p.id = ${id};`
     const [res] = await connection.execute(statement)
     return res
   }

@@ -4,10 +4,10 @@ class ProjectController {
   // 创建项目
   async create(ctx) {
     // 1、拿到客户端传来的数据
-    const { title, theme, content } = ctx.request.body
+    const { title, themeId, content } = ctx.request.body
 
     // 2、在projects上创建一条记录
-    await projectService.createProject(title, theme, content)
+    await projectService.createProject(title, themeId, content)
 
     // 3、返回客户端结果
     ctx.body = {
@@ -19,8 +19,8 @@ class ProjectController {
   // 修改项目
   async update(ctx) {
     const { id } = ctx.params
-    const { title, theme, content } = ctx.request.body
-    await projectService.update(id, title, theme, content)
+    const { title, themeId, content } = ctx.request.body
+    await projectService.update(id, title, themeId, content)
 
     ctx.body = {
       code: 0,
