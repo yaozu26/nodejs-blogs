@@ -11,6 +11,7 @@ projectRouter.patch("/:id", projectController.update)
 
 // 查找项目列表
 projectRouter.get("/", projectController.findList)
+// 查找单个项目
 projectRouter.get("/:id", projectController.findOne)
 
 // 删除项目

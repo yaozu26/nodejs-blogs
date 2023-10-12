@@ -45,7 +45,7 @@ class ProjectController {
 
     ctx.body = {
       code: 0,
-      data: res,
+      data: res[0],
     }
   }
 

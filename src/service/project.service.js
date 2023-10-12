@@ -42,6 +42,14 @@ class ProjectService {
     const [res] = await connection.execute(statement)
     return res
   }
+
+  // 获取theme同类个数
+  async themeCount(theme) {
+    console.log(theme)
+    const statement = `SELECT COUNT(*) count FROM projects WHERE theme = '${theme}';`
+    const [res] = await connection.execute(statement)
+    return res
+  }
 }
 
 module.exports = new ProjectService()
