@@ -21,6 +21,13 @@ class ThemeService {
     const [res] = await connection.execute(statement)
     return res
   }
+
+  // 查询theme
+  async list() {
+    const statement = `SELECT * FROM themes;`
+    const [res] = await connection.execute(statement)
+    return res
+  }
 }
 
 module.exports = new ThemeService()

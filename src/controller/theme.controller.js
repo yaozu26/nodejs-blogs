@@ -33,12 +33,9 @@ class ThemeController {
     }
   }
 
-  // 获取theme同类个数
-  async themeCount(ctx) {
-    const { theme } = ctx.request.body
-
-    const [res] = await projectService.themeCount(theme)
-
+  // 查询theme
+  async list(ctx) {
+    const res = await themeService.list()
     ctx.body = {
       code: 0,
       data: res,

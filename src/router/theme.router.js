@@ -12,7 +12,7 @@ themeRouter.patch("/:id", themeController.update)
 // 删除theme
 themeRouter.delete("/:id", themeController.delete)
 
-// 查询theme同类个数
-themeRouter.get("/count", themeController.themeCount)
+// 查询theme
+themeRouter.get("/list", themeController.list)
 
 module.exports = themeRouter
