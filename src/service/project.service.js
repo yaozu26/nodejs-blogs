@@ -1,16 +1,16 @@
 const connection = require("../app/database")
 
 class ProjectService {
-  // 增 projects
+  // 创建项目
   async createProject(title, themeId, content) {
-    const statement = "INSERT INTO projects (title, themeId, content) VALUES(?, ?, ?);"
+    const statement = "INSERT INTO projects (title, theme_id, content) VALUES(?, ?, ?);"
     const [res] = await connection.execute(statement, [title, themeId, content])
     return res
   }
 
-  // 改
+  // 修改项目
   async update(id, title, themeId, content) {
-    const statement = `UPDATE projects SET title = '${title}', content = '${content}', theme = '${themeId}' WHERE id = ${id};`
+    const statement = `UPDATE projects SET title = '${title}', content = '${content}', theme_id = '${themeId}' WHERE id = ${id};`
     const [res] = await connection.execute(statement)
     return res
   }
